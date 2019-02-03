@@ -7,6 +7,7 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import static com.hellofresh.challenge.base.TestBase.LOGGER;
 import static com.hellofresh.challenge.constants.TestConstant.*;
 
 public class WebDriverFactory {
@@ -19,13 +20,17 @@ public class WebDriverFactory {
         } else if (driverType.equals(IE)) {
             System.setProperty(IE_DRIVER_KEY, System.getProperty(USER_DIR_KEY) + TestBase.PROPS.getProperty(IE_DRIVER_PATH_KEY));
             driver = new InternetExplorerDriver();
-        } else {
+        } else if (driverType.equals(FIREFOX)) {
             System.setProperty(FIREFOX_DRIVER_KEY, System.getProperty(USER_DIR_KEY) + TestBase.PROPS.getProperty(FIREFOX_DRIVER_PATH_KEY));
             DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
             desiredCapabilities.setCapability("marionatte", false);
             FirefoxOptions options = new FirefoxOptions();
             options.merge(desiredCapabilities);
             driver = new FirefoxDriver(options);
+        } else {
+            LOGGER.info("Provided Driver is not supported. Initializing Chrome driver");
+            System.setProperty(CHROME_DRIVER_KEY, System.getProperty(USER_DIR_KEY) + TestBase.PROPS.getProperty(CHROME_DRIVER_PATH_KEY));
+            driver = new ChromeDriver();
         }
         return driver;
     }
