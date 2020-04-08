@@ -1,4 +1,4 @@
-# qa-test-hf
+# UI-test-framework-selenium
 Automation test suite for [Automation practice website]
 
 ### Summary
